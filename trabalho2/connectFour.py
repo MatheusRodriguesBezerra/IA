@@ -63,6 +63,7 @@ def pointsOfList(x:list) -> int:
         return 0
     
 def getPoints(node: Tabuleiro) -> int:
+    #PRINT
     m = node.getGame()
     count = 0
     for i in range(0,6,1):     # sequência nas horizontais
