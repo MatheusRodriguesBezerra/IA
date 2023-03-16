@@ -9,3 +9,15 @@ class Tabuleiro:
     def showGame(self):
         for i in self.getGame():
             print(i)
+
+    def __str__(self):
+        string = ""
+        for i in self.game:
+            string += str(i) + '\n'
+        return string
+    
+    def __eq__(self, other):
+        if(type(other) is not Tabuleiro):
+            return False
+        return self.game == other.game
+        
