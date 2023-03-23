@@ -16,6 +16,15 @@ def makeMove(node: Tabuleiro, n: int, player:str):
     new_table = Tabuleiro(new_table)
     return new_table
 
+def playerPlays(node: Tabuleiro):
+    new_table = list(map(list, node.getGame()))
+    new_table = Tabuleiro(new_table)
+    n = int(input())
+    new_table = makeMove(new_table,n,'PLAYER')
+    return new_table
+
+
+
 def getActionsBot(node: Tabuleiro):
     actions = []
     for i in range(1,8,1):

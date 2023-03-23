@@ -76,6 +76,10 @@ class Tabuleiro:
             for j in range(0,4,1):
                 sequence_of_four_diagonal_2 = [board[i][j],board[i-1][j+1],board[i-2][j+2],board[i-3][j+3]]
                 count = count + self.__pointsOfList(sequence_of_four_diagonal_2)
+        if count >= 512:
+            count = 512
+        if count <= -512:
+            count = -512
         return count
 
     def columnsFinished(self):
@@ -88,9 +92,9 @@ class Tabuleiro:
 
     def gameOver(self):
         if(self.points >= 512):
-            return 'PLAYER'
-        elif(self.points <= -512):
             return 'BOT'
+        elif(self.points <= -512):
+            return 'PLAYER'
         else:
             None
         # if abs(self.points) < 512:
