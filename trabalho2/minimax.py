@@ -10,7 +10,7 @@ def miniMax(node: Tabuleiro):
 
 
 
-def MIN(node:Tabuleiro): 
+def MinValue(node:Tabuleiro): 
     childs = []
     childsPoints = []
 
@@ -23,7 +23,7 @@ def MIN(node:Tabuleiro):
 
     return childs[minIndex]
 
-def MAX(node:Tabuleiro): 
+def MaxValue(node:Tabuleiro): 
     childs = []
     childsPoints = []
 
