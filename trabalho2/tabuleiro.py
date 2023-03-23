@@ -86,3 +86,11 @@ class Tabuleiro:
                 colsDone[i] = True
         return colsDone
 
+    def gameOver(self):
+        if abs(self.points) < 512:
+            return False, None
+        else:
+            if self.points <= -512:
+                return True, 'BOT'
+            else:  
+                return True, 'PLAYER'

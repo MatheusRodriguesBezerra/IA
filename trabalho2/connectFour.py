@@ -19,11 +19,15 @@ def makeMove(node: Tabuleiro, n: int, player:str):
 def getActionsBot(node: Tabuleiro):
     actions = []
     for i in range(1,8,1):
-        print(i)
         if(node.getColumnsDone()[i-1] is False):
             actions.append(makeMove(node,i, 'BOT'))
-    for i in actions:
-        print(i)
+    return actions
+
+def getActionsPlayer(node: Tabuleiro):
+    actions = []
+    for i in range(1,8,1):
+        if(node.getColumnsDone()[i-1] is False):
+            actions.append(makeMove(node,i, 'PLAYER'))
     return actions
 
 tab = [
@@ -36,7 +40,7 @@ tab = [
 ]
 
 tab = Tabuleiro(tab)
-getActionsBot(tab)
+# getActionsBot(tab)
 # for i in getActionsBot(tab):
 #     print(i)
 # while(True):
