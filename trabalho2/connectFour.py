@@ -40,7 +40,7 @@ tab = [
 ]
 
 tab = Tabuleiro(tab)
-# getActionsBot(tab)
+ 
 # for i in getActionsBot(tab):
 #     print(i)
 # while(True):

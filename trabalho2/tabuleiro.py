@@ -29,26 +29,26 @@ class Tabuleiro:
         num_X = x.count('X')
 
         if(num_X == 4):
-            return 512
+            return - 512
         elif(num_O == 4):
-            return -512
+            return 512
         
         if(num_X == 0):
             if(num_O == 3):
-                return -50
+                return 50
             elif(num_O == 2):
-                return -10
+                return 10
             elif(num_O == 1):
-                return - 1
+                return 1
             else:
                 return 0
         elif(num_O == 0):
             if(num_X == 3):
-                return 50
+                return -50
             elif(num_X == 2):
-                return 10
+                return -10
             elif(num_X == 1):
-                return 1
+                return -1
             else:
                 return 0
         else:
@@ -87,10 +87,16 @@ class Tabuleiro:
         return colsDone
 
     def gameOver(self):
-        if abs(self.points) < 512:
-            return False, None
+        if(self.points >= 512):
+            return 'PLAYER'
+        elif(self.points <= -512):
+            return 'BOT'
         else:
-            if self.points <= -512:
-                return True, 'BOT'
-            else:  
-                return True, 'PLAYER'
+            None
+        # if abs(self.points) < 512:
+        #     return False, None
+        # else:
+        #     if self.points <= -512:
+        #         return True, 'BOT'
+        #     else:  
+        #         return True, 'PLAYER'
