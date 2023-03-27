@@ -11,34 +11,44 @@ def min_max_decision(board:Tabuleiro) -> Tabuleiro:
             current_value = x
             play = children[i]
     return play
-    # max_v = maxValue(board, 0, 2)
-    # return max_v
+
+# def min_max_decision2(board:Tabuleiro) -> Tabuleiro:
+#     current_value = 10000
+#     children = getActionsPlayer(board)
+#     play = board
+#     for i in range(len(children)):
+#         x = maxValue(children[i], 1 , 5)
+#         if(x < current_value):
+#             current_value = x
+#             play = children[i]
+#     return play
+#     # max_v = maxValue(board, 0, 2)
+#     # return max_v
 
 def maxValue(node:Tabuleiro, depth:int, limit:int):
-    # print(node)
     if(node.gameOver()):
-        return node.getPoints() + limit - depth
+        return node.getPoints()
     if(depth<limit): 
         current_value = -10000
         children = getActionsBot(node)
         for i in range(len(children)):
-            x = minValue(children[i], depth+1 , limit)
-            if(x > current_value):
-                current_value = x
+            score = minValue(children[i], depth+1 , limit)
+            if(score > current_value):
+                current_value = score
         return current_value
     return node.getPoints()
 
 def minValue(node:Tabuleiro, depth:int, limit:int): 
     if(node.gameOver()):
-        return node.getPoints() + limit - depth
+        return node.getPoints()
     
     if(depth<limit): 
         current_value = 10000
         children = getActionsPlayer(node)
         for i in range(len(children)):
-            x = maxValue(children[i], depth+1 , limit)
-            if(x<current_value):
-                current_value = x
+            score = maxValue(children[i], depth+1 , limit)
+            if(score < current_value):
+                current_value = score
         return current_value
     return node.getPoints()
 
@@ -47,12 +57,20 @@ def play(node:Tabuleiro):
     new_table = Tabuleiro(new_table)
     while new_table.gameOver() is None:
         new_table = playerPlays(new_table)
-        if new_table.gameOver() is not None:
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
             break
-        new_table = min_max_decision(new_table)
         print(new_table)
-    print(new_table)
-    print(new_table.gameOver())
+
+        new_table = min_max_decision(new_table)
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
+            break
+        print(new_table)
 
 # def IDFS(initial_board):
 #     limit = 0

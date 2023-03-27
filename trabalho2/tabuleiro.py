@@ -60,26 +60,34 @@ class Tabuleiro:
         for i in range(0,6,1):     # sequência nas horizontais
             for j in range(0,4,1):
                 sequence_of_four_horizontal = [board[i][j],board[i][j+1],board[i][j+2],board[i][j+3]]
-                count = count + self.__pointsOfList(sequence_of_four_horizontal)
+                points = self.__pointsOfList(sequence_of_four_horizontal)
+                if(abs(points)==512):
+                    return points
+                count = count + points
 
         for i in range(0,3,1):     # sequência nas verticais
             for j in range(0,7,1):
                 sequence_of_four_vertical = [board[i][j],board[i+1][j],board[i+2][j],board[i+3][j]]
-                count = count + self.__pointsOfList(sequence_of_four_vertical)
-
+                points = self.__pointsOfList(sequence_of_four_vertical)
+                if(abs(points)==512):
+                    return points
+                count = count + points
+                
         for i in range(0,3,1):     # sequência nas diagonais positivas
             for j in range(0,4,1):
                 sequence_of_four_diagonal_1 = [board[i][j],board[i+1][j+1],board[i+2][j+2],board[i+3][j+3]]  
-                count = count + self.__pointsOfList(sequence_of_four_diagonal_1)
+                points = self.__pointsOfList(sequence_of_four_diagonal_1)
+                if(abs(points)==512):
+                    return points
+                count = count + points
 
         for i in range(3,6,1):     # sequência nas diagonais negativas
             for j in range(0,4,1):
                 sequence_of_four_diagonal_2 = [board[i][j],board[i-1][j+1],board[i-2][j+2],board[i-3][j+3]]
-                count = count + self.__pointsOfList(sequence_of_four_diagonal_2)
-        if count >= 512:
-            count = 512
-        if count <= -512:
-            count = -512
+                points = self.__pointsOfList(sequence_of_four_diagonal_2)
+                if(abs(points)==512):
+                    return points
+                count = count + points
         return count
 
     def columnsFinished(self):
