@@ -17,7 +17,7 @@ def alpha_beta_decision(board:Tabuleiro) -> Tabuleiro:
 
 def maxValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int):
     if(node.gameOver()):
-        return node.getPoints() + limit - depth
+        return node.getPoints()
     if(depth<limit):
         current_value = -10000
         children = getActionsBot(node)
@@ -33,7 +33,7 @@ def maxValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int):
 
 def minValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int): 
     if(node.gameOver()):
-        return node.getPoints() + limit - depth
+        return node.getPoints()
     if(depth<limit): 
         current_value = 10000
         children = getActionsPlayer(node)
@@ -71,6 +71,3 @@ tab = [
 
 tab = Tabuleiro(tab)
 play(tab)
-
-# for i in getActionsBot(tab):
-#     print (i, i.getPoints())

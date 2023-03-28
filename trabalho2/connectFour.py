@@ -26,8 +26,6 @@ def playerPlays(node: Tabuleiro):
     print("Coluna ja está cheia, escolha outra\n")
     return playerPlays(new_table)
 
-
-
 def getActionsBot(node: Tabuleiro):
     actions = []
     for i in range(1,8,1):
@@ -52,23 +50,3 @@ tab = [
 ]
 
 tab = Tabuleiro(tab)
- 
-# for i in getActionsBot(tab):
-#     print(i)
-# while(True):
-#     print(tab)
-#     play = int(input("Which column u want to put:\n1-7\n"))
-#     tab = makeMove(tab, play, 'PLAYER')
-# print(tab.getPoints())
-# bot_plays = getActionsBot(tab)
-# 
-
-
-# while(True):
-#     print(tab) 
-#     play = int(input("Which column u want to put:\n1-7\n"))
-#     tab = playerPlays(tab, play)
-#     print(tab)
-
-#     play = int(input("Which column u want to put:\n1-7\n"))
-#     tab = playerPlays2(tab, play)
