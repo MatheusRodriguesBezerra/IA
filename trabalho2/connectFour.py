@@ -4,7 +4,7 @@ def makeMove(node: Tabuleiro, n: int, player:str):
     new_table = list(map(list, node.getGame()))
     n = n - 1
     if(node.getColumnsDone()[n]):
-        print("Coluna escolhida está cheia!\n")
+        return None
     for i in range(len(new_table)):
         if (new_table[i][n] !='-'):
             i = i - 1
@@ -20,8 +20,11 @@ def playerPlays(node: Tabuleiro):
     new_table = list(map(list, node.getGame()))
     new_table = Tabuleiro(new_table)
     n = int(input())
-    new_table = makeMove(new_table,n,'PLAYER')
-    return new_table
+    if(node.getColumnsDone()[n-1] is False):
+        new_table = makeMove(new_table,n,'PLAYER')
+        return new_table
+    print("Coluna ja está cheia, escolha outra\n")
+    return playerPlays(new_table)
 
 
 
