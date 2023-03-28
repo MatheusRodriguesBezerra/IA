@@ -3,49 +3,45 @@ from connectFour import getActionsBot, getActionsPlayer, playerPlays
 
 def alpha_beta_decision(board:Tabuleiro) -> Tabuleiro:
     current_value = -10000
-    children = getActionsBot(board)
-    play = board
-    for i in range(len(children)):
-        score = minValue(children[i], 1 , 3, -10000, 10000)
+    for i in getActionsBot(board):
+        score = minValue(i, 1 , 3, -10000, 10000)
         if(score > current_value):
             current_value = score
-        if(current_value > 10000):
-            alpha = min(current_value, alpha)
-            break
-        play = children[i]
+            play = i
+    # for i in range(len(children)):
+    #     score = minValue(children[i], 1 , 3, -10000, 10000)
+    #     if(score > current_value):
+    #         current_value = score
+    #     if(current_value > 10000):
+    #         alpha = min(current_value, alpha)
+    #         break
+    #     play = children[i]
     return play
 
 def maxValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int):
     if(node.gameOver()):
         return node.getPoints() + limit - depth
     if(depth<limit):
-        current_value = -10000
-        children = getActionsBot(node)
-        for i in range(len(children)):
-            score = minValue(children[i], depth+1 , limit, alpha, beta)
-            if(score > current_value):
-                current_value = score
-            if(current_value > beta):
-                alpha = min(current_value, alpha)
+        score = -10000
+        for i in getActionsBot(node):
+            score = max(score, minValue(i, depth+1 , limit, alpha, beta))
+            if score >= beta:
                 break
-        return current_value
+            alpha = max(alpha, score)
+        return score
     return node.getPoints()
 
 def minValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int): 
     if(node.gameOver()):
         return node.getPoints() + limit - depth
     if(depth<limit): 
-        current_value = 10000
-        children = getActionsPlayer(node)
-        for i in range(len(children)):
-            score = maxValue(children[i], depth+1 , limit, alpha, beta)
-            if(score > current_value):
-                current_value = score
-            if(current_value < alpha):
-                beta = max(current_value, beta)
+        score = 10000
+        for i in getActionsPlayer(node):
+            score = min(score, maxValue(i, depth+1 , limit, alpha, beta))
+            if beta <= alpha:
                 break
-           
-        return current_value
+            beta = min(beta, score)
+        return score
     return node.getPoints()
 
 def play(node:Tabuleiro):
