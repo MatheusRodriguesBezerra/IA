@@ -6,7 +6,7 @@ def min_max_decision(board:Tabuleiro) -> Tabuleiro:
     children = getActionsBot(board)
     play = board
     for i in range(len(children)):
-        x = minValue(children[i], 1 , 3)
+        x = minValue(children[i], 1 , 6)
         if(x > current_value):
             current_value = x
             play = children[i]
@@ -27,7 +27,7 @@ def min_max_decision(board:Tabuleiro) -> Tabuleiro:
 
 def maxValue(node:Tabuleiro, depth:int, limit:int):
     if(node.gameOver()):
-        return node.getPoints()
+        return node.getPoints() + limit - depth
     if(depth<limit): 
         current_value = -10000
         children = getActionsBot(node)
@@ -40,7 +40,7 @@ def maxValue(node:Tabuleiro, depth:int, limit:int):
 
 def minValue(node:Tabuleiro, depth:int, limit:int): 
     if(node.gameOver()):
-        return node.getPoints()
+        return node.getPoints() + limit - depth
     
     if(depth<limit): 
         current_value = 10000
@@ -62,7 +62,6 @@ def play(node:Tabuleiro):
             print(new_table)
             print(end + " WINS")
             break
-        print(new_table)
 
         new_table = min_max_decision(new_table)
         end = new_table.gameOver() 

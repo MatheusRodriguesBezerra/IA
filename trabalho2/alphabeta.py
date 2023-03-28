@@ -4,7 +4,7 @@ from connectFour import getActionsBot, getActionsPlayer, playerPlays
 def alpha_beta_decision(board:Tabuleiro) -> Tabuleiro:
     current_value = -10000
     for i in getActionsBot(board):
-        score = minValue(i, 1 , 3, -10000, 10000)
+        score = minValue(i, 1 , 6, -10000, 10000)
         if(score > current_value):
             current_value = score
             play = i
