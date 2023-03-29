@@ -105,10 +105,7 @@ class Tabuleiro:
             return 'PLAYER'
         else:
             None
-        # if abs(self.points) < 512:
-        #     return False, None
-        # else:
-        #     if self.points <= -512:
-        #         return True, 'BOT'
-        #     else:  
-        #         return True, 'PLAYER'
+    def gameTied(self):
+        if self.colsDone.count(True) == 7:
+            return True
+        return False
