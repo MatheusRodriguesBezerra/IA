@@ -17,14 +17,12 @@ def makeMove(node: Tabuleiro, n: int, player:str):
     return new_table
 
 def playerPlays(node: Tabuleiro):
-    new_table = list(map(list, node.getGame()))
-    new_table = Tabuleiro(new_table)
     n = int(input())
     if(node.getColumnsDone()[n-1] is False):
-        new_table = makeMove(new_table,n,'PLAYER')
-        return new_table
+        node = makeMove(node,n,'PLAYER')
+        return node
     print("Coluna ja está cheia, escolha outra\n")
-    return playerPlays(new_table)
+    return playerPlays(node)
 
 def getActionsBot(node: Tabuleiro):
     actions = []
