@@ -6,7 +6,7 @@ def min_max_decision(board:Tabuleiro) -> Tabuleiro:
     children = getActionsBot(board)
     play = board
     for i in range(len(children)):
-        x = minValue(children[i], 1 , 6)
+        x = minValue(children[i], 1 , 4)
         if(x > current_value):
             current_value = x
             play = children[i]
