@@ -2,7 +2,6 @@ from tabuleiro import Tabuleiro
 from connectFour import getActionsBot, getActionsPlayer, playerPlays
 import random
 import math
-import time
 
 class TreeNode:
     def __init__(self, state:Tabuleiro,next_player:str, parent=None ):
@@ -35,7 +34,8 @@ class MCTS:
             node = self.select_node()
             if not node.is_fully_expanded():
                 node.expand()
-                self.simulate(node.children[-1])
+                for i in node.children:
+                    self.simulate(i)
             else:
                 self.simulate(node)
         
@@ -88,20 +88,23 @@ class MCTS:
                 best_moves.append(child.state)
         print(len(best_moves))
         return random.choice(best_moves)
-    
-tab = [
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-']
-]
 
-tab = Tabuleiro(tab)
-while not tab.gameFinished():
-    tab = playerPlays(tab)
-    print(tab)
-    mcts = MCTS(tab)    
-    tab = mcts.run(10000)
-    print(tab)
+def play_mcts(node:Tabuleiro):
+    new_table = node
+    while new_table.gameTied() is not True:
+        new_table = playerPlays(new_table)
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
+            break
+        print(new_table)
+        mcts = MCTS(new_table)    
+        new_table = mcts.run(10000)
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
+            break
+        print(new_table)
+    print("------------ EMPATE ------------")

@@ -43,7 +43,7 @@ def minValue(node:Tabuleiro, depth:int, limit:int, alpha:int, beta:int):
     return score
 
 def play_alpha_beta(node:Tabuleiro):
-    new_table = Tabuleiro(node)
+    new_table = node
     while new_table.gameTied() is not True:
         new_table = playerPlays(new_table)
         end = new_table.gameOver() 

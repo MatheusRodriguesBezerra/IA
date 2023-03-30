@@ -39,7 +39,7 @@ def minValue(node:Tabuleiro, depth:int, limit:int):
     return score
 
 def play_min_max(tab):
-    new_table = Tabuleiro(tab)
+    new_table = tab
     while new_table.gameTied() is not True:
         new_table = playerPlays(new_table)
         end = new_table.gameOver() 
