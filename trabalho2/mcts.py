@@ -27,8 +27,11 @@ def bestUCT(node: Tabuleiro) -> Tabuleiro:
     best_child = None
     for i in getActionsBot(node): #ainda tem que resolver como fazer para alternar a vez do 'O' ou do 'X'
         exploit_score = AvarageWin(i)
-        explore_score = sqrt(log(node.visits) / i.visits)
-        score = exploit_score + 2 * explore_score
+        print(i.visits +1)
+        print(2*log(node.visits+2))
+        explore_score = sqrt((2*(log(2))) / 2)
+        print(explore_score)
+        score = exploit_score + explore_score
         if score > best_score:
             best_score = score
             best_child = i
@@ -97,8 +100,12 @@ tab = [
     ['-','-','-','-','-','-','-'],
     ['-','-','-','-','-','-','-'],
     ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-']
+    ['-','-','-','X','-','-','-']
 ]
 
 tab = Tabuleiro(tab)
+
+print(bestUCT(tab))
+
+
 

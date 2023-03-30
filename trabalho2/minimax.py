@@ -3,17 +3,17 @@ from connectFour import getActionsBot, getActionsPlayer,playerPlays
 
 def min_max_decision(board:Tabuleiro) -> Tabuleiro:
     current_value = -10000
-    children = getActionsBot(board)
-    play = board
-    for i in range(len(children)):
+    children = getActionsBot(board) 
+    decision_index = 0
+    for i in (range(len(children))):
         if(children[i].getPoints() == 512):
             return children[i]
         score = max(current_value, minValue(children[i], 1 , 6))
-        # print(score)
         if(score > current_value):
             current_value = score
+            decision_index = i
             play = children[i]
-    print("FINAL CHOSEN: ",current_value)
+    print("----------- BOT: "+ str(decision_index  + 1) + " -----------")
     return play
 
 def maxValue(node:Tabuleiro, depth:int, limit:int):
@@ -47,6 +47,7 @@ def play_min_max(tab):
             print(new_table)
             print(end + " WINS")
             break
+        print(new_table)
 
         new_table = min_max_decision(new_table)
         end = new_table.gameOver() 
@@ -55,4 +56,5 @@ def play_min_max(tab):
             print(end + " WINS")
             break
         print(new_table)
+    print("------------ EMPATE ------------")
 

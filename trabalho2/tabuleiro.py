@@ -3,11 +3,6 @@ class Tabuleiro:
         self.game = game
         self.points = self.setBoardPoints()
         self.colsDone = self.columnsFinished()
-        # novos atributos
-        self.visits = 0     # contador de quantas vezes este tabaleiro ja foi visitado
-        self.childs = [] # lista dos filhos ja criados
-        self.reward = 0.0 # pontuação deste nó
-        self.parent = parent # pai
 
     def getGame(self):
         return self.game
@@ -115,14 +110,8 @@ class Tabuleiro:
         if self.colsDone.count(True) == 7:
             return True
         return False
-
-    # novas funções
-    def gameFinished(self): # retorna se o jogo acabou 
-        if (self.gameOver() is not None) or (self.gameTied() == True):
-            return True
-        else:
-            return False 
-
-    def update(self, result):
-        self.visits += 1
-        self.wins += result
+    
+    def gameFinished(self):
+        if(self.gameOver() is None and self.gameTied() is False):
+            return False
+        return True

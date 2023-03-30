@@ -17,7 +17,8 @@ def makeMove(node: Tabuleiro, n: int, player:str):
     return new_table
 
 def playerPlays(node: Tabuleiro):
-    n = int(input())
+    n = int(input("Em Qual coluna deseja jogar?\nR: "))
+    print("----------- JOGADOR: "+ str(n) + " -----------")
     if(node.getColumnsDone()[n-1] is False):
         node = makeMove(node,n,'PLAYER')
         return node
@@ -37,14 +38,3 @@ def getActionsPlayer(node: Tabuleiro):
         if(node.getColumnsDone()[i-1] is False):
             actions.append(makeMove(node,i, 'PLAYER'))
     return actions
-
-tab = [
-    ['X','-','-','-','-','-','X'],
-    ['X','-','-','-','-','-','X'],
-    ['X','-','-','-','-','-','X'],
-    ['X','-','-','-','-','-','X'],
-    ['X','-','-','-','-','-','X'],
-    ['X','-','-','-','-','-','X']
-]
-
-tab = Tabuleiro(tab)
