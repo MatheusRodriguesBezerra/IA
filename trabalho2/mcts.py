@@ -1,111 +1,108 @@
 from tabuleiro import Tabuleiro
-from connectFour import getActionsBot, makeMove
-from time import time
-from math import sqrt, log
-from random import randrange
+from connectFour import getActionsBot, getActionsPlayer, playerPlays
+import random
+import math
 
-# Realiza a busca com Monte Carlo Tree Search (MCTS).
-def mcts(node: Tabuleiro) -> Tabuleiro:
-    inicio = time()
-    while (inicio + 5) > time():    # limite de 5 segundos
-        leaf = select(node)
-        child = expand(leaf)
-        result = simulate(child)
-        backPropagate(child, result)
-    return bestPlay(node)
+class TreeNode:
+    def __init__(self, state:Tabuleiro,next_player:str, parent=None ):
+        self.state = state
+        self.parent = parent
+        self.children = []
+        self.visits = 0
+        self.value = 0.0
+        self.next_player = next_player
 
-# tem que alcançar um nó-folha
-def select(node: Tabuleiro) -> Tabuleiro:
-    node.visits += 1
-    while getActionsBot(node): #ainda tem que resolver como fazer para alternar a vez do 'O' ou do 'X'
-        node = bestUCT(node)
-    return node
-
-# retorna o descendente mais promissor a partir do UCT 
-def bestUCT(node: Tabuleiro) -> Tabuleiro:
-    best_score = -10000
-    best_child = None
-    for i in getActionsBot(node): #ainda tem que resolver como fazer para alternar a vez do 'O' ou do 'X'
-        exploit_score = AvarageWin(i)
-        print(i.visits +1)
-        print(2*log(node.visits+2))
-        explore_score = sqrt((2*(log(2))) / 2)
-        print(explore_score)
-        score = exploit_score + explore_score
-        if score > best_score:
-            best_score = score
-            best_child = i
-    return best_child
-
-# retorna a média de pontuação dos filhos  
-def AvarageWin(node: Tabuleiro) -> float:
-    new_table = list(map(list, node.getGame()))
-    new_table = Tabuleiro(new_table)
-    soma = 0 # soma das pontuações do filho
-    n = 0 # soma da quantidade de filhos
-    for i in getActionsBot(node):
-        soma += i.getPoints()
-        n += 1
-    resultado = soma / n
-    return resultado
-
-# Expande o nó selecionado pela função select(), adicionando um novo filho não explorado.
-def expand(node: Tabuleiro) -> Tabuleiro:
-    n = chooseAction()
-    new_node = makeMove(node, n, 'PLAYER') #ainda tem que resolver como fazer para alternar a vez do 'O' ou do 'X'
-    new_node = Tabuleiro(new_node, parent=node)
-    node.childs.append(new_node)
-    return new_node
-
-# retorna um número aleaório entre 1-8
-def chooseAction():
-    n = randrange(1,8)
-    return n
-
-# Realiza a simulação de Monte Carlo a partir do nó selecionado pela função seleção(), 
-# escolhendo ações aleatórias até chegar a um estado final.
-def simulate(node: Tabuleiro) -> int:
-    new_table = list(map(list, node.getGame()))
-    new_table = Tabuleiro(new_table)
-    while new_table.gameFinished() == False:
-        n = chooseAction()
-        new_table = makeMove(new_table, n, jogadorDaVez) #ainda tem que resolver como fazer para alternar a vez do 'O' ou do 'X'        
-        if jogadorDaVez == 'PLAYER':
-            jogadorDaVez = 'BOT'
+    def expand(self):
+        if(self.next_player == "BOT"):
+            for child in getActionsBot(self.state):
+                new_node = TreeNode(child, "PLAYER", self)
+                self.children.append(new_node)
         else:
-            jogadorDaVez = 'PLAYER'
-    return new_table.getPoints()
+            for child in getActionsPlayer(self.state):
+                new_node = TreeNode(child, "BOT", self)
+                self.children.append(new_node)
 
-# Atualiza as estatísticas dos nós visitados a partir do nó selecionado pela função seleção() até a raiz.
-def backPropagate(node:Tabuleiro, result: int):
-    while node.parent is not None:
-        node.visits += 1
-        node.reward += result
-        node = node.parent
+    def is_fully_expanded(self):
+        return len(self.children) == len(self.state.getColumnsDone())
 
-# Retorna o melhor filho do nó atual, usando a política de seleção UCB.
-def bestPlay(node: Tabuleiro):
-    best_value = -1000000
-    for i in node.childs:
-        value = i.reward / i.visits
-        if value > best_value:
-            best_value = value
-            best_son = i
-    return best_son
+class MCTS:
+    def __init__(self, root_state):
+        self.root = TreeNode(root_state, "BOT")
 
+    def run(self, iterations):
+        for i in range(iterations):
+            node = self.select_node()
+            if not node.is_fully_expanded():
+                node.expand()
+                self.simulate(node.children[-1])
+            else:
+                self.simulate(node)
+        
+        return self.get_best_move()
 
-tab = [
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','-','-','-','-'],
-    ['-','-','-','X','-','-','-']
-]
+    def select_node(self):
+        node = self.root
+        while node.children:
+            best_child = None
+            best_value = float("-inf")
+            for child in node.children:
+                if child.visits == 0:
+                    UCT_value = float("inf")
+                else:
+                    UCT_value = child.value / child.visits + 2*math.sqrt((math.log(node.visits) / child.visits))
+                if UCT_value > best_value:
+                    best_child = child
+                    best_value = UCT_value
+            node = best_child
+        return node
 
-tab = Tabuleiro(tab)
+    def simulate(self, node):
+        state = node.state
+        player = node.next_player
+        while not state.gameFinished():
+            if(player =="BOT"):
+                state = random.choice(getActionsBot(state))
+                player = "PLAYER"
+            else:
+                state = random.choice(getActionsPlayer(state))
+                player = "BOT"
+        reward = state.getPoints()
+        self.backpropagate(node, reward)
 
-print(bestUCT(tab))
+    def backpropagate(self, node, reward):
+        while node is not None:
+            node.visits += 1
+            node.value += reward
+            node = node.parent
 
+    def get_best_move(self):
+        best_value = float("-inf")
+        best_moves = []
+        for child in self.root.children:
+            value = child.value / child.visits
+            if value > best_value:
+                best_value = value
+                best_moves = [child.state]
+            elif value == best_value:
+                best_moves.append(child.state)
+        return random.choice(best_moves)
 
-
+def play_mcts(node:Tabuleiro):
+    new_table = node
+    while new_table.gameTied() is not True:
+        new_table = playerPlays(new_table)
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
+            return
+        print(new_table)
+        mcts = MCTS(new_table)    
+        new_table = mcts.run(1000)
+        end = new_table.gameOver() 
+        if end is not None:
+            print(new_table)
+            print(end + " WINS")
+            return
+        print(new_table)
+    print("------------ EMPATE ------------")
