@@ -2,6 +2,7 @@ from tabuleiro import Tabuleiro
 from connectFour import getActionsBot, getActionsPlayer, playerPlays
 import random
 import math
+import time
 
 class TreeNode:
     def __init__(self, state:Tabuleiro,next_player:str, parent=None ):
@@ -22,24 +23,31 @@ class TreeNode:
                 new_node = TreeNode(child, "BOT", self)
                 self.children.append(new_node)
 
+        return len(self.children)
+
     def is_fully_expanded(self):
         return len(self.children) == len(self.state.getColumnsDone())
 
 class MCTS:
     def __init__(self, root_state):
         self.root = TreeNode(root_state, "BOT")
+        self.num_nodes_gen = 0
+
+    def getNumNodesGen(self):
+        return self.num_nodes_gen
 
     def run(self, iterations):
         for i in range(iterations):
             node = self.select_node()
             if not node.is_fully_expanded():
-                node.expand()
-                self.simulate(node.children[-1])
+                self.num_nodes_gen += node.expand()
+                if(len(node.children) != 0):
+                    self.simulate(node.children[-1])
             else:
                 self.simulate(node)
         
         return self.get_best_move()
-
+    
     def select_node(self):
         node = self.root
         while node.children:
@@ -67,7 +75,10 @@ class MCTS:
                 state = random.choice(getActionsPlayer(state))
                 player = "BOT"
         reward = state.getPoints()
-        self.backpropagate(node, reward)
+        if(reward == 512):
+            self.backpropagate(node, 1)
+            return
+        self.backpropagate(node,0)
 
     def backpropagate(self, node, reward):
         while node is not None:
@@ -90,6 +101,7 @@ class MCTS:
 def play_mcts(node:Tabuleiro):
     new_table = node
     while new_table.gameTied() is not True:
+        start_time = time.time()
         new_table = playerPlays(new_table)
         end = new_table.gameOver() 
         if end is not None:
@@ -101,8 +113,17 @@ def play_mcts(node:Tabuleiro):
         new_table = mcts.run(1000)
         end = new_table.gameOver() 
         if end is not None:
+            end_time_win = time.time()
+            print("----------- BOT -----------")
+            print("\nTEMPO DE RESPOSTA: ", end_time_win - start_time)
+            print("NUMERO DE NÓS CRIADOS: ",mcts.getNumNodesGen())
             print(new_table)
             print(end + " WINS")
             return
+        end_time = time.time()
+        print("----------- BOT -----------")
+        print("\nTEMPO DE RESPOSTA: ", end_time - start_time)
+        print("NUMERO DE NÓS CRIADOS: ",mcts.getNumNodesGen())
         print(new_table)
+
     print("------------ EMPATE ------------")
