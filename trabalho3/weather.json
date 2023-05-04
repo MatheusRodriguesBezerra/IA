@@ -1,0 +1,114 @@
+[
+    {
+        "ID": "1",
+        "Weather": "sunny",
+        "Temp": "85",
+        "Humidity": "85",
+        "Windy": "FALSE",
+        "Play": "no"
+    },
+    {
+        "ID": "2",
+        "Weather": "sunny",
+        "Temp": "80",
+        "Humidity": "90",
+        "Windy": "TRUE",
+        "Play": "no"
+    },
+    {
+        "ID": "3",
+        "Weather": "overcast",
+        "Temp": "83",
+        "Humidity": "86",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "4",
+        "Weather": "rainy",
+        "Temp": "70",
+        "Humidity": "96",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "5",
+        "Weather": "rainy",
+        "Temp": "68",
+        "Humidity": "80",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "6",
+        "Weather": "rainy",
+        "Temp": "65",
+        "Humidity": "70",
+        "Windy": "TRUE",
+        "Play": "no"
+    },
+    {
+        "ID": "7",
+        "Weather": "overcast",
+        "Temp": "64",
+        "Humidity": "65",
+        "Windy": "TRUE",
+        "Play": "yes"
+    },
+    {
+        "ID": "8",
+        "Weather": "sunny",
+        "Temp": "72",
+        "Humidity": "95",
+        "Windy": "FALSE",
+        "Play": "no"
+    },
+    {
+        "ID": "9",
+        "Weather": "sunny",
+        "Temp": "69",
+        "Humidity": "70",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "10",
+        "Weather": "rainy",
+        "Temp": "75",
+        "Humidity": "80",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "11",
+        "Weather": "sunny",
+        "Temp": "75",
+        "Humidity": "70",
+        "Windy": "TRUE",
+        "Play": "yes"
+    },
+    {
+        "ID": "12",
+        "Weather": "overcast",
+        "Temp": "72",
+        "Humidity": "90",
+        "Windy": "TRUE",
+        "Play": "yes"
+    },
+    {
+        "ID": "13",
+        "Weather": "overcast",
+        "Temp": "81",
+        "Humidity": "75",
+        "Windy": "FALSE",
+        "Play": "yes"
+    },
+    {
+        "ID": "14",
+        "Weather": "rainy",
+        "Temp": "71",
+        "Humidity": "91",
+        "Windy": "TRUE",
+        "Play": "no"
+    }
+]

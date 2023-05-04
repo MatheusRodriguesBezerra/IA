@@ -78,6 +78,9 @@ class MCTS:
         if(reward == 512):
             self.backpropagate(node, 1)
             return
+        elif(reward == -512):
+            self.backpropagate(node, -1)
+            return
         self.backpropagate(node,0)
 
     def backpropagate(self, node, reward):
@@ -110,7 +113,7 @@ def play_mcts(node:Tabuleiro):
             return
         print(new_table)
         mcts = MCTS(new_table)    
-        new_table = mcts.run(1000)
+        new_table = mcts.run(5000)
         end = new_table.gameOver() 
         if end is not None:
             end_time_win = time.time()
