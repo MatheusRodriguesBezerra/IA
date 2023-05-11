@@ -14,19 +14,42 @@ def csv_to_dict(csvFilePath):
 csvFilePath = r'./restaurant.csv'
 dict = csv_to_dict(csvFilePath)
 
+def transform_dict(data):
+    dict = {}
+    for key in data:
+        dict[key] = {}
+        total_count_general = 0
+        for value in data[key]:
+            dict[key][value] = {}
+            total_count_general += data[key][value]["total_count"]
+            for class_key in data[key][value]:
+                if(class_key != "total_count"):
+                    probability = data[key][value][class_key]/data[key][value]["total_count"]
+                    dict[key][value][class_key] = probability
+            dict[key][value]["total_count"]=data[key][value]["total_count"] 
+        dict[key]["total_count"] = total_count_general
+    return dict
+
 def entropy(data):
-    total_count = sum(data.values())
-    if total_count == 0:
-        return 0
-    entropy = 0
-    for count in data.values():
-        p_i = count / total_count
-        if p_i != 0:
-            entropy -= p_i * math.log2(p_i)
-    return entropy
+    dict = {}
+    for key in data:
+        total_entropy = 0
+        for value in data[key]:
+            if(value!="total_count"):
+                partial_entropy = 0
+                for class_key in data[key][value]:
+                    if(class_key != "total_count"):
+                        prob = data[key][value][class_key]
+                        entropy = -(prob * math.log2(prob))
+                        partial_entropy += entropy
+                partial_entropy = partial_entropy * (data[key][value]["total_count"]/data[key]["total_count"])
+                total_entropy+=partial_entropy
+        dict[key] = total_entropy
+    # print(dict)
+    return min(dict, key=dict.get)
 
 def get_value_counts(data):
-    keys = list(data[0].keys())[:-1]
+    keys = list(data[0].keys())[1:-1]
     last_key = list(data[0].keys())[-1]
     value_counts = {}
     for key in keys:
@@ -42,45 +65,15 @@ def get_value_counts(data):
 
     for key in value_counts:
         for value in value_counts[key]:
-            value_counts[key][value]["total_count"] = sum(value_counts[key][value].values())
-
+            value_counts[key][value]["total_count"] = sum(value_counts[key][value].values()) 
     return value_counts
 
 result = get_value_counts(dict)
 
-for key in result:
-    if(key != "ID"):
-        print(key)
-        for value in result[key]:
-            print("  ", value, entropy(result[key][value]))
+print(entropy(transform_dict(result)))
 
-# print(result)
-
-# def entropy(data, attribute):
-#     total = len(data)
-#     counts = {}
-#     for item in data:
-#         label = item[attribute]
-#         if label not in counts:
-#             counts[label] = 0
-#         counts[label] += 1
-#     entropy = 0
-#     for label in counts:
-#         prob = counts[label] / total
-#         entropy -= prob * math.log2(prob)
-#     return entropy
-
-# entropy(dict, "Pat")
-
-# max_entropy = 0
-# max_attribute = ""
-# for i in list(dict[0].keys())[1:]:
-#     ent = entropy(dict, i)
-#     if ent > max_entropy:
-#         max_entropy = ent
-#         max_attribute = i
-# print(max_attribute, max_entropy)
+def ID3(examples, target_attribute, atributtes):
+    print("macaco")
 
 
 
-# def ID3(examples, target_attribute, atributtes):
