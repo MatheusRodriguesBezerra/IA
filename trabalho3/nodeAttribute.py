@@ -4,4 +4,6 @@ class NodeAttribute:
         self.name = name
         self.edges = edges
 
-    
+class Edge:
+    def __init__(self, name):
+        self.name = name

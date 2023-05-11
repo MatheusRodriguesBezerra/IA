@@ -68,12 +68,22 @@ def get_value_counts(data):
             value_counts[key][value]["total_count"] = sum(value_counts[key][value].values()) 
     return value_counts
 
-result = get_value_counts(dict)
+print(dict)
+# print(entropy(transform_dict(result)))
+# def ID3(examples, target_attribute, atributtes):
+#     # for item in examples:
 
-print(entropy(transform_dict(result)))
+#     return
 
-def ID3(examples, target_attribute, atributtes):
-    print("macaco")
+
+
+# result = get_value_counts(dict)
+# print(dict)
+# ID3(dict, "Class", list(dict[0].keys())[1:-1])
+
+
+
+    
 
 
 
