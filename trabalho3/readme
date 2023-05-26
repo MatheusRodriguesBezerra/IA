@@ -1,0 +1,14 @@
+To run the program you need to have python installed and simply run:
+
+    python main.py 
+        or
+    python3 main.py
+
+Depending on the version of python you have
+
+The program outputs the Decision-Tree and also generates a csv file with the respective results.
+There are already defined files used for testing the decision trees, so feel free to use it and changed it as you will.
+
+Note that the names of the files cannot be changes as its in code defined.
+
+Have fun!!
