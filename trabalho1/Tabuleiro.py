@@ -65,8 +65,6 @@ class Tabuleiro:
                     return i,j
 
 
-
-
 def thereIsSolution(x: Tabuleiro, y: Tabuleiro) -> bool:
     condI = (x.numberofInversions() % 2 == 0) == ((x.blankLine()+1) % 2 == 1)
     condF = (y.numberofInversions() % 2 == 0) == ((y.blankLine()+1) % 2 == 1)
@@ -123,8 +121,12 @@ def moveUp(x: Tabuleiro) -> Tabuleiro | None:
 
 def getActions(x: Tabuleiro):
     actions = []
-    actions.append(moveRight(x))
-    actions.append(moveLeft(x))
-    actions.append(moveDown(x))
-    actions.append(moveUp(x))
+    if moveRight(x) != None:
+        actions.append(moveRight(x))
+    if moveLeft(x) != None:
+        actions.append(moveLeft(x))
+    if moveDown(x) != None:
+        actions.append(moveDown(x))
+    if moveUp(x) != None:
+        actions.append(moveUp(x))
     return actions
