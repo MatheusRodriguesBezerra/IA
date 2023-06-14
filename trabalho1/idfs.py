@@ -1,6 +1,5 @@
 from Tabuleiro import Tabuleiro, getActions, thereIsSolution
 
-global visited 
 
 def LDFS(node: Tabuleiro, nodeFinal: Tabuleiro, limit:int):
     q = [node]  
@@ -11,7 +10,12 @@ def LDFS(node: Tabuleiro, nodeFinal: Tabuleiro, limit:int):
         for w in getActions(u):
             if u.depth < limit:
                 if w == nodeFinal:
-                    return nodeFinal
+                    path = [] 
+                    while w != None:
+                        path.append(w)
+                        print(w)
+                        w = w.parent
+                    return path
                 if w != None:
                     w.parent = u
                     w.depth = u.depth+1
@@ -20,6 +24,8 @@ def LDFS(node: Tabuleiro, nodeFinal: Tabuleiro, limit:int):
     return None
 
 def IDFS(nodeInicial: Tabuleiro, nodeFinal: Tabuleiro):
+    if thereIsSolution(nodeInicial, nodeFinal) == False:
+        return -1
     limit = 1
     result = None
     while result == None:
@@ -27,6 +33,8 @@ def IDFS(nodeInicial: Tabuleiro, nodeFinal: Tabuleiro):
         print(limit)
         limit = limit + 1
     return result
+
+
 
 tab1 = Tabuleiro([[1, 2, 3, 4], [5, 6, 8, 12], [13, 9, 0, 7], [14, 11, 10, 15]])
 tab2 = Tabuleiro([[1, 2, 3, 4], [13, 6, 8, 12], [5, 9, 0, 7], [14, 11, 10, 15]])
